@@ -1,0 +1,2 @@
+#!/bin/sh
+touch data/nginx/maintenance.flag

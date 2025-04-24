@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - custom 
+
+  nginx:
+    # Build the custom Nginx+Certbot image
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.certbot.prod
+    image: nginx:latest
+    restart: always
+    ports:
+      - '30000:3000'
+    volumes:
+      - ./data/nginx:/nginx-data
+      - ./data/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend 
+    networks:
+      - custom 
+
+networks:
+  custom:
+    driver: bridge
